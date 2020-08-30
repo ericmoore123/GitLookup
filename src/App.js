@@ -13,13 +13,20 @@ class App extends Component {
 
   async componentDidMount() {
     // console.log("Mounted!");
-    this.setState({ loading: true }); //cannot directly change state
+    this.setState({
+      loading: true,
+    }); //cannot directly change state
 
     const response = await axios.get(
       `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
     );
-    this.setState({ users: response.data, loading: false });
+
+    this.setState({
+      users: response.data,
+      loading: false,
+    });
   }
+
   render() {
     return (
       <React.Fragment>

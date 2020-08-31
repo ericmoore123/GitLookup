@@ -11,30 +11,38 @@ class App extends Component {
     loading: false,
   };
 
-  async componentDidMount() {
-    // console.log("Mounted!");
+  searchUsers = async (username) => {
     this.setState({
       loading: true,
-    }); //cannot directly change state
-
+    });
+    // console.log(username);
     const response = await axios.get(
-      `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
+      `https://api.github.com/search/users?q=${username}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
     );
 
     this.setState({
-      users: response.data,
+      users: response.data.items,
       loading: false,
     });
-  }
+  };
+
+  removeSearch = (e) => {
+    this.setState({ users: [], loading: false });
+  };
 
   render() {
+    const { users, loading } = this.state; //Destructure
+
     return (
       <React.Fragment>
         <div className="App">
           <Navbar title="Git-Lookup" icon="fab fa-github" />
           <div className="container">
-            <Search />
-            <Users loading={this.state.loading} users={this.state.users} />
+            <Search
+              searchUsers={this.searchUsers}
+              removeSearch={this.removeSearch}
+            />
+            <Users loading={loading} users={users} />
           </div>
         </div>
       </React.Fragment>

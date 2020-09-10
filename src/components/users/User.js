@@ -18,9 +18,33 @@ export class User extends Component {
 
   checkHireable(status) {
     if (status) {
-      return <i className="fa fa-check text-success"> Hireable</i>;
+      return (
+        <i
+          style={{
+            border: "1px solid green",
+            padding: "5px 10px",
+            borderRadius: "5px",
+          }}
+          className="fa fa-check text-success"
+        >
+          {" "}
+          Hireable
+        </i>
+      );
     } else {
-      return <i className="fa fa-times-circle text-danger"> Hireable</i>;
+      return (
+        <i
+          style={{
+            border: "1px solid red",
+            padding: "5px 10px",
+            borderRadius: "5px",
+          }}
+          className="fa fa-times-circle text-danger"
+        >
+          {" "}
+          Hireable
+        </i>
+      );
     }
   }
 
@@ -37,15 +61,12 @@ export class User extends Component {
       followers,
       following,
       public_repos,
-      public_gists,
       hireable,
     } = this.props.user;
 
-    const { loading } = this.props;
-
     return (
       <Fragment>
-        <Link to="/home" className="btn btn-light">
+        <Link to="/" className="btn btn-light">
           Back to search
         </Link>
         {this.checkHireable(hireable)}
@@ -66,7 +87,12 @@ export class User extends Component {
                 <h3>{bio}</h3>
               </Fragment>
             )}
-            <a href={html_url} className="btn btn-dark my-1">
+            <a
+              href={html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-dark my-1"
+            >
               GitHub Profile
             </a>
             <ul>
@@ -102,6 +128,24 @@ export class User extends Component {
                   </Fragment>
                 )}
               </li>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <li style={{ color: "green" }}>
+                  {followers && (
+                    <Fragment>
+                      <strong> Followers: </strong>
+                      {followers}
+                    </Fragment>
+                  )}
+                </li>
+                <li style={{ paddingLeft: "1rem", color: "red" }}>
+                  {following && (
+                    <Fragment>
+                      <strong> Following: </strong>
+                      {following}
+                    </Fragment>
+                  )}
+                </li>
+              </div>
             </ul>
           </div>
         </div>

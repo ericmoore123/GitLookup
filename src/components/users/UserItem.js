@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const UserItem = (props) => {
-  const { login, avatar_url, html_url } = props.user;
+  const { login, avatar_url } = props.user;
   return (
     <div className="card text-center">
       <img
@@ -14,7 +14,7 @@ const UserItem = (props) => {
       <h3>{login}</h3>
       <Link
         to={`/user/${login}`}
-        target="_blank"
+        // target="_blank"
         rel="noopener noreferrer"
         className="btn btn-dark btn-sm my-1"
       >

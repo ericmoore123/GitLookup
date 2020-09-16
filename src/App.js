@@ -10,6 +10,7 @@ import "./App.css";
 
 class App extends Component {
   state = {
+    repos: [],
     users: [],
     user: {},
     loading: false,
@@ -43,12 +44,25 @@ class App extends Component {
     });
   };
 
+  getRepos = async (username) => {
+    this.setState({
+      loading: true,
+    });
+    const response = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=6&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
+    );
+    this.setState({
+      repos: response.data,
+      loading: false 
+    });
+  }
+
   removeSearch = (e) => {
     this.setState({ users: [], loading: false });
   };
 
   render() {
-    const { users, user, loading } = this.state; //Destructure
+    const { users, user, loading, repos } = this.state; //Destructure
 
     return (
       <Router>
@@ -59,7 +73,7 @@ class App extends Component {
               <Switch>
                 <Route
                   exact
-                  path="/"
+                  path="/home"
                   render={(props) => (
                     <Fragment>
                       <Search
@@ -78,7 +92,9 @@ class App extends Component {
                 render={(props) => (
                   <User
                     {...props}
+                    getRepos={this.getRepos}
                     getUser={this.getUser}
+                    repos={repos}
                     user={user}
                     loading={loading}
                   />

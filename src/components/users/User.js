@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
+import Repos from "../repos/Repos";
 
 export class User extends Component {
   componentDidMount() {
@@ -10,6 +11,7 @@ export class User extends Component {
     // console.log(username);
     // console.log(this.props.getUser(username));
     this.props.getUser(username);
+    this.props.getRepos(username);
     // this.props.getUser(this.props.match.params.login); //pull username out of url
     this.setState({
       loading: false,
@@ -149,6 +151,7 @@ export class User extends Component {
             </ul>
           </div>
         </div>
+        <Repos repos={this.props.repos}/>
       </Fragment>
     );
   }

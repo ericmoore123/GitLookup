@@ -7,8 +7,10 @@ const Navbar = (props) => {
   return (
     <nav className="navbar bg-primary">
       <h1>
-        <i className={icon}></i>
-        {title}
+        <Link to="/home">
+          <i className={icon}></i>
+          {title}
+        </Link>
       </h1>
       <ul>
         <li>

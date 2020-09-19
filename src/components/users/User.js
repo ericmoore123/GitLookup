@@ -3,22 +3,24 @@ import { Link } from "react-router-dom";
 import Repos from "../repos/Repos";
 
 export class User extends Component {
+  // When page mounts, call function and set state
   componentDidMount() {
     this.setState({
       loading: true,
     });
+    // Set username value
     const username = this.props.match.params.login;
-    // console.log(username);
-    // console.log(this.props.getUser(username));
+    // Call API call methods to send user and repo data to this component 
     this.props.getUser(username);
     this.props.getRepos(username);
-    // this.props.getUser(this.props.match.params.login); //pull username out of url
+
     this.setState({
       loading: false,
     });
   }
 
   checkHireable(status) {
+    // If user is hireable/unhireable, render appropriate tag
     if (status) {
       return (
         <i
@@ -51,6 +53,7 @@ export class User extends Component {
   }
 
   render() {
+    // Deconstruct data sent by API call method to component
     const {
       name,
       avatar_url,
@@ -65,7 +68,8 @@ export class User extends Component {
       public_repos,
       hireable,
     } = this.props.user; 
-
+    
+    // Deconstruct repos stats as prop
     const {repos} = this.props;
 
     return (
@@ -153,6 +157,7 @@ export class User extends Component {
             </ul>
           </div>
         </div>
+        {/* render repos component to end of User component */}
         <Repos repos={repos}/>
       </Fragment>
     );

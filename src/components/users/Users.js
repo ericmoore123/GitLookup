@@ -4,12 +4,12 @@ import Spinner from "../ui/Spinner.js";
 import PropTypes from "prop-types";
 
 const Users = ({ users, loading }) => {
-  // const { users } = this.state;
   if (loading) {
     return <Spinner />;
   } else {
     return (
       <div className="user-style">
+        {/* Display github users returned from getusers method */}
         {users.map((user) => (
           <UserItem key={user.id} user={user} />
         ))}

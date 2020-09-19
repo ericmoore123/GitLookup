@@ -64,7 +64,9 @@ export class User extends Component {
       following,
       public_repos,
       hireable,
-    } = this.props.user;
+    } = this.props.user; 
+
+    const {repos} = this.props;
 
     return (
       <Fragment>
@@ -131,27 +133,27 @@ export class User extends Component {
                 )}
               </li>
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <li style={{ color: "green" }}>
+                <div style={{ color: "green" }}>
                   {followers && (
                     <Fragment>
                       <strong> Followers: </strong>
                       {followers}
                     </Fragment>
                   )}
-                </li>
-                <li style={{ paddingLeft: "1rem", color: "red" }}>
+                </div>
+                <div style={{ paddingLeft: "1rem", color: "red" }}>
                   {following && (
                     <Fragment>
                       <strong> Following: </strong>
                       {following}
                     </Fragment>
                   )}
-                </li>
+                </div>
               </div>
             </ul>
           </div>
         </div>
-        <Repos repos={this.props.repos}/>
+        <Repos repos={repos}/>
       </Fragment>
     );
   }

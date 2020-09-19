@@ -49,7 +49,7 @@ class App extends Component {
       loading: true,
     });
     const response = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=6&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
+      `https://api.github.com/users/${username}/repos?per_page=9&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
     );
     this.setState({
       repos: response.data,

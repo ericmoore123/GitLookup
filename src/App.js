@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/ui/Navbar";
 import Users from "./components/users/Users";
@@ -8,64 +9,46 @@ import Search from "./components/users/Search.js";
 import axios from "axios";
 import "./App.css";
 
-class App extends Component {
-  state = {
-    repos: [],
-    users: [],
-    user: {},
-    loading: false,
-  };
+const App = () => {
+  const [repos, setRepos] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  searchUsers = async (username) => {
-    this.setState({
-      loading: true,
-    });
+  const searchUsers = async (username) => {
+    setLoading(true);
     const response = await axios.get(
       `https://api.github.com/search/users?q=${username}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
     );
-
-    this.setState({
-      users: response.data.items,
-      loading: false,
-    });
+    setUsers(response.data.items);
+    setLoading(false);
   };
 
-  getUser = async (username) => {
-    this.setState({
-      loading: true,
-    });
+  const getUser = async (username) => {
+    setLoading(true);
     const response = await axios.get(
       `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
     );
-
-    this.setState({
-      user: response.data,
-      loading: false,
-    });
+    setUser(response.data);
+    setLoading(false);
   };
 
-  getRepos = async (username) => {
-    this.setState({
-      loading: true,
-    });
+  const getRepos = async (username) => {
+    setLoading(true);
     const response = await axios.get(
       `https://api.github.com/users/${username}/repos?per_page=9&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
     );
-    this.setState({
-      repos: response.data,
-      loading: false 
-    });
+    setRepos(response.data);
+    setLoading(false);
   }
 
-  removeSearch = (e) => {
-    this.setState({ users: [], loading: false });
+  const removeSearch = (e) => {
+    setUsers([]);
+    setLoading(false);
   };
 
-  render() {
-    const { users, user, loading, repos } = this.state; //Destructure
-
-    return (
-      <Router>
+  return(
+    <Router>
         <React.Fragment>
           <div className="App">
             <Navbar title="Git-Lookup" icon="fab fa-github" />
@@ -74,11 +57,11 @@ class App extends Component {
                 <Route
                   exact
                   path="/"
-                  render={(props) => (
+                  render={() => (
                     <Fragment>
                       <Search
-                        searchUsers={this.searchUsers}
-                        removeSearch={this.removeSearch}
+                        searchUsers={searchUsers}
+                        removeSearch={removeSearch}
                       />
                       <Users loading={loading} users={users} />
                     </Fragment>
@@ -92,8 +75,8 @@ class App extends Component {
                 render={(props) => (
                   <User
                     {...props}
-                    getRepos={this.getRepos}
-                    getUser={this.getUser}
+                    getRepos={getRepos}
+                    getUser={getUser}
                     repos={repos}
                     user={user}
                     loading={loading}
@@ -104,8 +87,7 @@ class App extends Component {
           </div>
         </React.Fragment>
       </Router>
-    );
-  }
-}
+  )
+};
 
 export default App;

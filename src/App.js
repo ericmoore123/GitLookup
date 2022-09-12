@@ -10,9 +10,7 @@ import axios from "axios";
 import "./App.css";
 
 const App = () => {
-  const [repos, setRepos] = useState([]);
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
 
   const searchUsers = async (username) => {
@@ -23,24 +21,6 @@ const App = () => {
     setUsers(response.data.items);
     setLoading(false);
   };
-
-  const getUser = async (username) => {
-    setLoading(true);
-    const response = await axios.get(
-      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
-    );
-    setUser(response.data);
-    setLoading(false);
-  };
-
-  const getRepos = async (username) => {
-    setLoading(true);
-    const response = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=9&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_ID_SECRET}`
-    );
-    setRepos(response.data);
-    setLoading(false);
-  }
 
   const removeSearch = (e) => {
     setUsers([]);
@@ -75,11 +55,6 @@ const App = () => {
                 render={(props) => (
                   <User
                     {...props}
-                    getRepos={getRepos}
-                    getUser={getUser}
-                    repos={repos}
-                    user={user}
-                    loading={loading}
                   />
                 )}
               />
